@@ -1,6 +1,6 @@
 from django import forms
 from django.views.generic import DetailView
-from django.forms import DateTimeInput, EmailField, ModelForm
+from django.forms import EmailField, ModelForm
 
 from .models import BlockchainEntry, Order, Block, CreateMine, User, Profile
 

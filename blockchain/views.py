@@ -1,26 +1,17 @@
 import hashlib
-import json
-import os
 import time
 import requests
 
-from debug_toolbar import settings
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from django.core.checks import messages
-from django.http import HttpResponse
-from django.template import context
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .models import Profile
-from .utils import Blockchain
 from .models import Block, Order, CreateMine
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
-from .forms import BlockchainEntryForm, OrderForm, BlockForm, CreateMineForm, UserUpdateForm, ProfileUpdateForm
-import rest_framework
+from .forms import BlockchainEntryForm, OrderForm, BlockForm, UserUpdateForm, ProfileUpdateForm
 
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy

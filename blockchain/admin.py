@@ -1,7 +1,6 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 
-from .models import BlockchainEntry, Order, CreateMine, Profile
+from .models import Order, CreateMine, Profile
 
 
 class BlockchainEntryAdmin(admin.ModelAdmin):

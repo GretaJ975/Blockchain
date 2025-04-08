@@ -1,9 +1,6 @@
-import dashboard
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from pandas.core.internals import blocks
-
 
 from .views import home, block_detail, about, create_blockchain_entry, index, view_chain, order_list, mine, create_mine, RegisterView
 from . import views
