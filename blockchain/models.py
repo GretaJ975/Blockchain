@@ -1,0 +1,142 @@
+import hashlib
+import json
+
+from django.contrib.auth import user_logged_in
+from django.contrib.auth.models import User
+from django.db import models
+from datetime import datetime, timezone
+
+from django.dispatch import receiver
+from django.utils.timezone import now
+from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
+from PIL import Image
+
+
+
+class Block(models.Model):
+    index = models.IntegerField()
+    timestamp = models.DateTimeField(default=datetime.utcnow)
+    data = models.TextField()
+    previous_hash = models.CharField(max_length=64)
+    hash = models.CharField(max_length=64)
+    nonce = models.IntegerField(default=0)
+    objects = None
+
+
+    def save(self, *args, **kwargs):
+        # Set the 'index' field automatically before saving
+        if not self.index:  # Only set the index if it's not already set
+            last_block = Block.objects.all()
+            last_block = Block.objects.all().order_by('-index').first()
+            if last_block:
+                self.index = last_block.index + 1
+            else:
+                self.index = 1  # The first block in the chain will have index 1
+        super().save(*args, **kwargs)
+
+
+    def __str__(self):
+        return f'Block {self.index} : {self.data}'
+
+
+    @property
+    def compute_hash(self):
+        block_data = json.dumps({
+            "index": self.index,
+            "timestamp": str(self.timestamp),
+            "data": self.data,
+            "previous_hash": self.previous_hash,
+            "nonce": self.nonce
+        }, sort_keys=True).encode()
+        return hashlib.sha256(block_data).hexdigest()
+
+    def generate_hash(self):
+        block_string = f"{self.index}{self.previous_hash}{self.timestamp}{self.data}".encode()
+        return hashlib.sha256(block_string).hexdigest()
+
+    @staticmethod
+    def get_latest_block():
+        return Block.objects.order_by('-index').first()
+
+class CreateMine(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    previous_hash = models.CharField(max_length=64, blank=True, null=True)
+    data = models.TextField()
+    hash = models.CharField(max_length=64, unique=True, blank=True)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(args, kwargs)
+        self.id = None
+
+    def save(self, *args, **kwargs):
+        if not self.hash:
+            self.hash = self.calculate_hash()
+        super().save(*args, **kwargs)
+
+    def calculate_hash(self):
+        block_string = f"{self.timestamp}{self.previous_hash}{self.data}"
+        return hashlib.sha256(block_string.encode()).hexdigest()
+
+    def __str__(self):
+        return f"Block {self.id} - Hash: {self.hash[:10]}..."
+
+
+class BlockchainEntry(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('completed', 'Completed'),
+        ('canceled', 'Canceled'),
+    ]
+
+    customer_name = models.CharField(max_length=255)
+    customer_email = models.EmailField(default='default@example.com')
+    customer_address = models.CharField(max_length=255, null=True)
+    order_date = models.DateTimeField(default=now)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_method = models.CharField(max_length=50, default='cash')
+    timestamp = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Order {self.id} by {self.customer_name}"
+
+def default_profile_pic():
+    return "blockchain/profile_pics/default.png"
+
+class Profile(models.Model):
+    objects = None
+    user = models.OneToOneField(
+        User, verbose_name=_("User"), on_delete=models.CASCADE, related_name="profile"
+    )
+    bio = models.TextField(blank=True, null=True)
+    profile_pic = models.ImageField(
+        upload_to='blockchain/profile_pics/',
+        default='blockchain/profile_pics/default.png',
+        null=True,
+        blank=True)
+
+    class Meta:
+        verbose_name = _("Profile")
+        verbose_name_plural = _("Profiles")
+
+    def __str__(self):
+        return f"{self.user.username} {_('profile')}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.profile_pic.path)
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.profile_pic.path)

@@ -1,0 +1,108 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'blockchain/css/styles.css' %}" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <!-- Title (shown on the browser tab) -->
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body class="container-fluid d-flex flex-column h-100 p-0">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'index' %}">
+          <img src="{% static 'blockchain/images/logo.png' %}" alt="Blockchain Logo" width="50" height="50" />
+        </a>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav w-100">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'block' %}">Block</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'mine' %}">Mine</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'orders' %}">Orders</a>
+            </li>
+
+            {% if perms.blockchain.add_block %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'create_block' %}">Create Block</a>
+            </li>
+            {% endif %}
+
+            {% if perms.blockchain.add_mine %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'create_mine' %}">Create Mine</a>
+            </li>
+            {% endif %}
+
+            {% if perms.blockchain.add_order %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'create_order' %}">Create Order</a>
+            </li>
+            {% endif %}
+
+            <!-- Conditional Login/Register/Logout -->
+            {% if user.is_authenticated %}
+              <!-- Logged-in user: Show Logout -->
+              <li class="ms-auto nav-item">
+                <form method="post" action="{% url 'logout' %}" style="display: inline; padding: 0;">
+                  {% csrf_token %}
+                  <button type="submit" class="nav-link btn btn-link" style="border: none; background: none;">Logout</button>
+                </form>
+              </li>
+            {% else %}
+              <!-- Not logged-in: Show Login/Register -->
+              <li class="ms-auto nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}">Register</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container main-content" style="padding-top: 30px">
+      {% if messages %}
+      {% for msg in messages %}
+      <div
+        class="alert alert-{% if msg.tags == 'error' %}danger{% elif msg.tags == 'info' %}success{% endif %}"
+        role="alert"
+      >
+        {{ msg|safe }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% block content %}
+      {% endblock content %}
+    </div>
+    <div class="container mt-auto py-4">
+      <footer class="footer">&copy; CodeAcademy</footer>
+    </div>
+    <!-- Custom JavaScript -->
+    <script src="{% static 'service/js/main.js' %}"></script>
+    <!-- Bootstrap JavaScript -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

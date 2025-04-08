@@ -1,0 +1,28 @@
+{% extends 'blockchain/base.html' %}
+
+{% block title %}Blockchain Viewer{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Blockchain Ledger</h2>
+
+    {% if chain %}
+        <div class="list-group">
+            {% for block in chain %}
+                <div class="list-group-item mb-3 p-3 border rounded shadow-sm">
+                    <h5>Block #{{ forloop.counter }}</h5>
+                    <p><strong>Type:</strong> {{ block.get_block_type_display }}</p>
+                    <p><strong>Data:</strong> {{ block.data }}</p>
+                    <p><strong>Timestamp:</strong> {{ block.timestamp }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">No blocks found in the blockchain.</p>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <a href="{% url 'create_block' %}" class="btn btn-primary">Add New Block</a>
+    </div>
+</div>
+{% endblock %}

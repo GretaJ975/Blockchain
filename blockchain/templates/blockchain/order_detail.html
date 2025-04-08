@@ -1,0 +1,19 @@
+{% extends 'blockchain/base.html' %}
+
+{% block content %}
+  <h1>Order Details for Order #{{ order.id }}</h1>
+
+  <p><strong>Customer Name:</strong> {{ order.customer_name }}</p>
+  <p><strong>Customer Email:</strong> {{ order.customer_email }}</p>
+  <p><strong>Customer Address:</strong> {{ order.customer_address }}</p>
+  <p><strong>Order Date:</strong> {{ order.order_date }}</p>
+  <p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
+  <p><strong>Status:</strong> {{ order.status }}</p>
+  <p><strong>Total Amount:</strong> ${{ order.total_amount }}</p>
+  <p><strong>Timestamp:</strong> {{ order.timestamp }}</p>  <!-- This will show the timestamp -->
+
+  <hr>
+
+  <!-- Add more details or actions here, such as editing or deleting the order -->
+  <a href="{% url 'order_list' %}">Back to Orders List</a>
+{% endblock %}

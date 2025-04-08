@@ -1,0 +1,20 @@
+{% extends 'blockchain/base.html' %}
+
+{% block title %}Block Details{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Block Details</h2>
+
+    <div class="card shadow-sm p-4 mt-4">
+        <h5>Block ID: {{ block.id }}</h5>
+        <p><strong>Type:</strong> {{ block.get_block_type_display }}</p>
+        <p><strong>Data:</strong> {{ block.data }}</p>
+        <p><strong>Timestamp:</strong> {{ block.timestamp }}</p>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a href="{% url 'view_chain' %}" class="btn btn-secondary">Back to Blockchain</a>
+    </div>
+</div>
+{% endblock %}

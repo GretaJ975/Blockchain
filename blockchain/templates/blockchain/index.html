@@ -1,0 +1,29 @@
+{% extends 'blockchain/base.html' %}
+
+{% block title %}Home - Blockchain{% endblock %}
+
+{% block content %}
+<div class="container text-center">
+    <h1>Welcome to the Blockchain Explorer</h1>
+    <p>View, create, and manage blockchain blocks with ease.</p>
+
+    <div class="mt-4">
+        <a href="/create_block/" class="btn">Create Block</a>
+        <a href="/create_mine/" class="btn">Create Mine</a>
+
+        <form action="/create_block/" method="GET">
+            <a href="{% url 'create_block' %}" class="btn btn-primary">Create Block</a>
+        </form>
+
+        <h2>Existing Blocks</h2>
+        <ul>
+            {% for block in blocks %}
+                <li>Block #{{ block.id }} - {{ block.data }}</li>
+            {% empty %}
+                <li>No blocks available.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'create_mine' %}" class="btn btn-secondary">Create Mine</a>
+    </div>
+</div>
+{% endblock %}

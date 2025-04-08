@@ -1,0 +1,16 @@
+{% extends 'blockchain/base.html' %}
+
+{% block title %}Block {{ block.index }} Details{% endblock title %}
+
+{% block content %}
+<h1>Block {{ block.index }} Details</h1>
+<table>
+    <tr><th>Index</th><td>{{ block.index }}</td></tr>
+    <tr><th>Timestamp</th><td>{{ block.timestamp }}</td></tr>
+    <tr><th>Data</th><td>{{ block.data }}</td></tr>
+    <tr><th>Nonce</th><td>{{ block.nonce }}</td></tr>
+    <tr><th>Hash</th><td>{{ block.hash }}</td></tr>
+    <tr><th>Previous Hash</th><td>{{ block.previous_hash }}</td></tr>
+</table>
+<a href="{% url 'home' %}">Back to Blockchain</a>
+{% endblock content %}

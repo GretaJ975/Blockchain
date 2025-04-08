@@ -1,0 +1,28 @@
+{% extends 'blockchain/base.html' %}
+
+<!--{% block title %}Create Blockchain Entry{% endblock %}-->
+
+{% block content %}
+<!--    <div class="container">-->
+        <h2>Create a New Block</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Create Block</button>
+
+            <div class="form-group">
+                <label for="id_name">Name</label>
+                {{ form.name }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_description">Description</label>
+                {{ form.description }}
+            </div>
+        </form>
+
+        <div class="back-link">
+            <a href="{% url 'home' %}">Back to Home</a>
+        </div>
+    </div>
+{% endblock %}

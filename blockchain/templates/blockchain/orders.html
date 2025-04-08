@@ -1,0 +1,29 @@
+{% extends 'blockchain/base.html' %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Orders</h2>
+
+    {% if orders %}
+        <div class="list-group mt-4">
+            {% for order in orders %}
+                <div class="list-group-item p-3 border rounded shadow-sm">
+                    <h5>Order #{{ order.id }}</h5>
+                    <p><strong>Customer:</strong> {{ order.customer_name }}</p>
+                    <p><strong>Total Amount:</strong> ${{ order.total_amount }}</p>
+                    <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+                    <p><strong>Timestamp:</strong> {{ order.timestamp }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center mt-4">No orders available.</p>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <a href="{% url 'create_order' %}" class="btn btn-success">Create New Order</a>
+    </div>
+</div>
+{% endblock %}

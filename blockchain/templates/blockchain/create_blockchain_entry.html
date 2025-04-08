@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Create a New Blockchain Entry</h2>
+
+    <form method="POST" class="mt-3">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="data" class="form-label">Block Data</label>
+            {{ form.data }}
+        </div>
+        <button type="submit" class="btn btn-primary">Add Block</button>
+    </form>
+
+    <a href="{% url 'view_blocks' %}" class="btn btn-secondary mt-3">Back to Blockchain</a>
+</div>
+{% endblock %}

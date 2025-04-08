@@ -1,0 +1,25 @@
+{% extends "blockchain/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>User Profile</h2>
+    <hr />
+
+    <div class="card" style="max-width: 600px;">
+        <div class="card-body">
+            <h4 class="card-title">{{ user.username }}</h4>
+            <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
+
+            {% if profile.profile_pic %}
+                <img src="{{profile.profile_pic.url }}" alt="Profile Picture" class="img-fluid rounded-circle" width="100">
+            {% else %}
+                <p><em>No profile picture uploaded</em></p>
+            {% endif %}
+
+            <p class="card-text"><strong>Bio:</strong> {{ profile.bio|default:"No bio available." }}</p>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
