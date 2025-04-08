@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 
-from .views import home, block_detail, about, create_blockchain_entry, index, view_chain, order_list, mine, create_mine, RegisterView
+from .views import  block_detail, about, index, view_chain, order_list, mine, RegisterView
 from . import views
 from django.contrib.auth import views as auth_views
 

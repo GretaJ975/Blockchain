@@ -3,11 +3,9 @@ import json
 
 from django.contrib.auth.models import User
 from django.db import models
-from datetime import datetime, timezone
+from datetime import datetime
 
-from django.dispatch import receiver
 from django.utils.timezone import now
-from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from PIL import Image
 
