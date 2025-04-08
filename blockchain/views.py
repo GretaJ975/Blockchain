@@ -17,7 +17,7 @@ from rest_framework.response import Response
 from .models import Profile
 from .utils import Blockchain
 from .models import Block, Order, CreateMine
-from django.shortcuts import render, get_object_or_404, redirect, JsonResponse
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 from .forms import BlockchainEntryForm, OrderForm, BlockForm, CreateMineForm, UserUpdateForm, ProfileUpdateForm
 import rest_framework
