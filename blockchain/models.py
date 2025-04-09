@@ -12,7 +12,6 @@ from PIL import Image
 
 
 class Block(models.Model):
-    index = models.IntegerField(null = True, blank = True)
     timestamp = models.DateTimeField(default=datetime.utcnow)
     data = models.TextField()
     previous_hash = models.CharField(max_length=64)
@@ -33,13 +32,13 @@ class Block(models.Model):
 
 
     def __str__(self):
-        return f'Block {self.index} : {self.data}'
+        return f'Block {self.id} : {self.data}'
 
 
     @property
     def compute_hash(self):
         block_data = json.dumps({
-            "index": self.index,
+            "id": self.id,
             "timestamp": str(self.timestamp),
             "data": self.data,
             "previous_hash": self.previous_hash,
@@ -50,7 +49,7 @@ class Block(models.Model):
 
     @staticmethod
     def get_latest_block():
-        return Block.objects.order_by('-index').first()
+        return Block.objects.order_by('-id').first()
 
 class CreateMine(models.Model):
     block = models.OneToOneField (Block, on_delete= models.CASCADE)

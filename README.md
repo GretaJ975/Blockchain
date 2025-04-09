@@ -31,7 +31,7 @@ It also helped me practice my Django and Python skills by building a web-based U
 - 📦 **Create new blocks** with custom data  
 - ⛏️ **Mine blocks** using Proof of Work (configurable difficulty)
 - 🔗 Each block includes:
-  - Index
+  - ID
   - Timestamp
   - Data
   - Hash

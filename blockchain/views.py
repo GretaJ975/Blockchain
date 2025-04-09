@@ -52,16 +52,16 @@ def get_blockchain(request):
 def home(request):
     if request.method == "POST":
         data = request.POST.get('data', 'Default Block Data')
-        new_block = Block(data=data, index=Block.objects.count() + 1)
+        new_block = Block(data=data)
         new_block.save()
 
-    blockchain = Block.objects.all().order_by('index')
+    blockchain = Block.objects.all().order_by('id')
     return render(request, 'blockchain/home.html', {'blockchain': blockchain, 'btc_price': get_btc_price()})
 
 
 def block_detail(request, block_id):
-    block = get_object_or_404(Block, index=block_id)
-    return render(request, 'blockchain/block_detail.html', {'block': block})
+    block = get_object_or_404(Block, id=block_id)
+    return render(request, 'blockchain/block_detail.html', {'block_': block})
 
 
 def about(request):
@@ -138,7 +138,7 @@ def block_list(request):
     return render(request, 'blockchain/block_list.html', {'blocks': blocks})
 
 def generate_block_hash(block):
-    block_string = f"{block.index}{block.timestamp}{block.data}{block.previous_hash}"
+    block_string = f"{block.id}{block.timestamp}{block.data}{block.previous_hash}"
     return hashlib.sha256(block_string.encode()).hexdigest()
 
 

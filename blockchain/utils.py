@@ -10,7 +10,6 @@ class Blockchain:
 
         if Block.objects.count() == 0:
             genesis_block = Block(
-                index=0,
                 timestamp=datetime.utcnow(),
                 data="Genesis Block",
                 previous_hash="0"
@@ -21,13 +20,12 @@ class Blockchain:
 
     @staticmethod
     def get_last_block():
-        return Block.objects.order_by('-index').first()
+        return Block.objects.order_by('-id').first()
 
     @staticmethod
     def add_new_block(data):
         last_block = Blockchain.get_last_block()
         new_block = Block(
-            index=last_block.index + 1 if last_block else 0,
             timestamp=datetime.utcnow(),
             data=data,
             previous_hash=last_block.hash if last_block else "0"

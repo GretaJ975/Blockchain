@@ -14,7 +14,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Index</th>
+            <th>ID</th>
             <th>Timestamp</th>
             <th>Data</th>
             <th>Hash</th>
@@ -25,7 +25,7 @@
     <tbody>
         {% for block in blockchain %}
         <tr>
-            <td>{{ block.index }}</td>
+            <td>{{ block.id }}</td>
             <td>{{ block.timestamp }}</td>
             <td>{{ block.data }}</td>
             <td>
@@ -42,7 +42,7 @@
                     {{ block.previous_hash }}
                 {% endif %}
             </td>
-            <td><a href="{% url 'block_detail' block.index %}">View</a></td>
+            <td><a href="{% url 'block_detail' block.id %}">View</a></td>
         </tr>
         {% endfor %}
     </tbody>

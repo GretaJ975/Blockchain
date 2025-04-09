@@ -13,11 +13,11 @@
 </form>
 {% if last_block %}
     <h2>New Block Mined!</h2>
-    <p>Index: {{ last_block.index }}</p>
+    <p>ID: {{ last_block.id }}</p>
     <p>Hash: {{ last_block.hash }}</p>
 
 
-   <a href="{% url 'block_detail' last_block.index %}">View Block</a>
+   <a href="{% url 'block_detail' last_block.id %}">View Block</a>
 
 
 {% endif %}
