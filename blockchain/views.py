@@ -126,7 +126,7 @@ def create_order(request):
         form = OrderForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('order')  # Redirect to orders page after creating
+            return redirect('orders')  # Redirect to orders page after creating
     else:
         form = OrderForm()
 
