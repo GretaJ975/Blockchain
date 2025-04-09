@@ -19,7 +19,7 @@ urlpatterns = [
     path('orders/', order_list, name='orders'),
     path('order/<int:pk>/', views.OrderDetailView, name='order_detail'),
     path('create-order/', views.create_order, name='create_order'),
-    path('block/', views.block, name='block'),
+    path('blocks/', views.block_list, name='blocks'),
 ]
 
 urlpatterns += [

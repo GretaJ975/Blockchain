@@ -4,6 +4,7 @@ import requests
 
 from django.contrib.auth.decorators import login_required
 from django.core.checks import messages
+from django.views.generic import ListView, DetailView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -63,7 +64,6 @@ def block_detail(request, block_id):
     return render(request, 'blockchain/block_detail.html', {'block': block})
 
 
-
 def about(request):
     return render(request, 'blockchain/about.html')
 
@@ -89,22 +89,33 @@ def create_mine(request):
         while not new_hash.startswith("0000"):
             nonce += 1
             new_hash = hashlib.sha256(f"{previous_hash}{nonce}".encode()).hexdigest()
+        print ("LAST_BLOCK", last_block)
 
-
-        block = CreateMine.objects.create(
+        block = CreateMine(
+            block= last_block,
             data=f"Mined block at {time.ctime()}",
             previous_hash=previous_hash,
             # nonce=nonce,
             hash=new_hash,
         )
+        block.save()
         return render(request, 'blockchain/create_mine.html', {'last_block': last_block})
 
 
 
-
 def mine (request):
-    return render(request, 'blockchain/mine.html')
+    mines = CreateMine.objects.all()
+    return render(request, 'blockchain/mine.html', context = {'mines': mines})
 
+class OrderListView(ListView):
+    model = Order
+    template_name = 'orders/order_list.html'
+    context_object_name = 'orders'
+
+class OrderDetailView(DetailView):
+    model = Order
+    template_name = 'orders/order_detail.html'
+    context_object_name = 'order'
 
 def order_list(request):
     orders = Order.objects.all().order_by('-timestamp')  # Fetch all orders, latest first
@@ -115,15 +126,16 @@ def create_order(request):
         form = OrderForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('orders')  # Redirect to orders page after creating
+            return redirect('order')  # Redirect to orders page after creating
     else:
         form = OrderForm()
 
     return render(request, 'blockchain/create_order.html', {'form': form})
 
 
-def block(request):
-    return render(request, 'blockchain/block.html')
+def block_list(request):
+    blocks = Block.objects.all()
+    return render(request, 'blockchain/block_list.html', {'blocks': blocks})
 
 def generate_block_hash(block):
     block_string = f"{block.index}{block.timestamp}{block.data}{block.previous_hash}"

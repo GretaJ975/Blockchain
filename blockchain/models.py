@@ -12,7 +12,7 @@ from PIL import Image
 
 
 class Block(models.Model):
-    index = models.IntegerField()
+    index = models.IntegerField(null = True, blank = True)
     timestamp = models.DateTimeField(default=datetime.utcnow)
     data = models.TextField()
     previous_hash = models.CharField(max_length=64)
@@ -22,14 +22,13 @@ class Block(models.Model):
 
 
     def save(self, *args, **kwargs):
-        # Set the 'index' field automatically before saving
-        if not self.index:  # Only set the index if it's not already set
-            last_block = Block.objects.all()
-            last_block = Block.objects.all().order_by('-index').first()
-            if last_block:
-                self.index = last_block.index + 1
-            else:
-                self.index = 1  # The first block in the chain will have index 1
+
+        if block := Block.objects.last():
+            self.previous_hash= block.hash
+        else:
+            self.previous_hash="0"
+        self.hash= self.compute_hash
+
         super().save(*args, **kwargs)
 
 
@@ -48,23 +47,18 @@ class Block(models.Model):
         }, sort_keys=True).encode()
         return hashlib.sha256(block_data).hexdigest()
 
-    def generate_hash(self):
-        block_string = f"{self.index}{self.previous_hash}{self.timestamp}{self.data}".encode()
-        return hashlib.sha256(block_string).hexdigest()
 
     @staticmethod
     def get_latest_block():
         return Block.objects.order_by('-index').first()
 
 class CreateMine(models.Model):
+    block = models.OneToOneField (Block, on_delete= models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     previous_hash = models.CharField(max_length=64, blank=True, null=True)
     data = models.TextField()
     hash = models.CharField(max_length=64, unique=True, blank=True)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(args, kwargs)
-        self.id = None
 
     def save(self, *args, **kwargs):
         if not self.hash:

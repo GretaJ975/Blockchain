@@ -1,4 +1,5 @@
 from django import forms
+from django.shortcuts import redirect, render
 from django.views.generic import DetailView
 from django.forms import EmailField, ModelForm
 
@@ -15,10 +16,23 @@ class BlockchainEntryForm(forms.ModelForm):
         }
 
 
+# views.py - add this function
+def create_block(request):
+    if request.method == 'POST':
+        form = BlockForm(request.POST)
+        if form.is_valid():
+            block = form.save()
+            return redirect('block_detail', block_id=block.block_id)
+    else:
+        form = BlockForm()
+
+    return render(request, 'blocks/block_form.html', {'form': form})
+
+
 class BlockForm(forms.ModelForm):
     class Meta:
         model = Block
-        fields = ['timestamp', 'previous_hash', 'hash', 'data']
+        fields = ['timestamp', 'data']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
