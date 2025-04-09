@@ -30,6 +30,7 @@ urlpatterns += [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('register/', RegisterView.as_view(), name='register'),
     path("profile/", views.show_profile, name="profile"),
+    path("profile_edit/", views.edit_profile, name="profile_edit"),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
 
