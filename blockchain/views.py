@@ -80,7 +80,7 @@ def create_blockchain_entry(request):
     return render(request, 'blockchain/create_blockchain_entry.html', {'form': form})
 
 def create_mine(request):
-    if request.method == "GET":
+    if request.method == "POST":
         last_block = Block.objects.last()
         previous_hash = last_block.hash if last_block else "0"  # Genesis block case
         nonce = 0

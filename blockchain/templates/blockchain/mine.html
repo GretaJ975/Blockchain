@@ -6,7 +6,6 @@
 <div class="container">
     <h2 class="text-center">Mine a New Block</h2>
 
-    {% if mines %}
     {% for mine in mines %}
         <div class="alert alert-success text-center mt-4">
             <h5>Block Mined Successfully!</h5>
@@ -16,13 +15,11 @@
             <p><strong>Timestamp:</strong> {{ mine.block.timestamp }}</p>
         </div>
     {% endfor %}
-    {% else %}
-        <p class="text-center">Click the button below to mine a new block.</p>
-        <form action="{% url 'mine_block' %}" method="post" class="text-center">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Mine Block</button>
-        </form>
-    {% endif %}
+    <p class="text-center">Click the button below to mine a new block.</p>
+    <form action="{% url 'create_mine' %}" method="post" class="text-center">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Mine Block</button>
+    </form>
 
     <div class="text-center mt-4">
         <a href="{% url 'view_chain' %}" class="btn btn-secondary">View Blockchain</a>
