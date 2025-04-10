@@ -16,7 +16,6 @@ class Block(models.Model):
     data = models.TextField()
     previous_hash = models.CharField(max_length=64)
     hash = models.CharField(max_length=64)
-    nonce = models.IntegerField(default=0)
     objects = None
 
 
@@ -42,7 +41,6 @@ class Block(models.Model):
             "timestamp": str(self.timestamp),
             "data": self.data,
             "previous_hash": self.previous_hash,
-            "nonce": self.nonce
         }, sort_keys=True).encode()
         return hashlib.sha256(block_data).hexdigest()
 

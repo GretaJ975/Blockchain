@@ -10,10 +10,9 @@
   <p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
   <p><strong>Status:</strong> {{ order.status }}</p>
   <p><strong>Total Amount:</strong> ${{ order.total_amount }}</p>
-  <p><strong>Timestamp:</strong> {{ order.timestamp }}</p>  <!-- This will show the timestamp -->
-
+  <p><strong>Timestamp:</strong> {{ order.timestamp }}</p>
   <hr>
 
-  <!-- Add more details or actions here, such as editing or deleting the order -->
+
   <a href="{% url 'order_list' %}">Back to Orders List</a>
 {% endblock %}
