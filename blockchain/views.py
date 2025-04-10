@@ -1,4 +1,5 @@
 import hashlib
+import profile
 import time
 import requests
 
@@ -185,7 +186,7 @@ def edit_profile(request):
         "user_form": user_form,
         "profile_form": profile_form,
     }
-    return render(request, template_name="registration/profile.html", context=context)
+    return render(request, template_name="registration/profile.html", context={'profile':profile})
 
 def show_profile(request):
     user = request.user

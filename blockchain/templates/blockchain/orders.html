@@ -12,9 +12,11 @@
                 <div class="list-group-item p-3 border rounded shadow-sm">
                     <h5>Order #{{ order.id }}</h5>
                     <p><strong>Customer:</strong> {{ order.customer_name }}</p>
-                    <p><strong>Total Amount:</strong> ${{ order.total_amount }}</p>
+                    <p><strong>Email:</strong> {{ order.customer_email }}</p>
+                    <p><strong>Address:</strong> {{ order.customer_address }}</p>
+                    <p><strong>Total Amount:</strong> {{ order.total_amount }}</p>
+                    <p><strong>Order Date:</strong> {{ order.order_date }}</p>
                     <p><strong>Status:</strong> {{ order.get_status_display }}</p>
-                    <p><strong>Timestamp:</strong> {{ order.timestamp }}</p>
                 </div>
             {% endfor %}
         </div>

@@ -17,7 +17,7 @@
                 <p><em>No profile picture uploaded</em></p>
             {% endif %}
 
-            <p class="card-text"><strong>Bio:</strong> {{ profile.bio|default:"No bio available." }}</p>
+            <p class="card-text"><strong>Bio:</strong> {{ profile.bio|default:"Bio available." }}</p>
 
             <a href="{% url 'profile_edit' %}" class="btn btn-primary">Edit Profile</a>
 

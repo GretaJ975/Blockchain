@@ -89,13 +89,13 @@ class Order(models.Model):
         ('canceled', 'Canceled'),
     ]
 
-    customer_name = models.CharField(max_length=255)
-    customer_email = models.EmailField(default='default@example.com')
-    customer_address = models.CharField(max_length=255, null=True)
+    customer_name = models.CharField(max_length=255, default='')
+    customer_email = models.EmailField(default='')
+    customer_address = models.CharField(max_length=255, null=True, default='')
     order_date = models.DateTimeField(default=now)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_method = models.CharField(max_length=50, default='cash')
+    payment_method = models.CharField(max_length=50, default='')
     timestamp = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
