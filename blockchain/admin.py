@@ -4,9 +4,9 @@ from .models import Order, CreateMine, Profile
 
 
 class BlockchainEntryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'date_added')  # Columns to display in the list view
-    search_fields = ('name',)  # Add a search box for the 'name' field
-    list_filter = ('date_added',)  # Add a filter by 'date_added'
+    list_display = ('name', 'date_added')
+    search_fields = ('name',)
+    list_filter = ('date_added',)
 
 admin.site.site_header = "Blockchain Administration"
 admin.site.site_title = "Blockchain Admin Panel"

@@ -31,7 +31,7 @@ def create_block(request):
         form = BlockForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("index")  # Redirect to the main blockchain page
+            return redirect("index")
         else:
             return render(request, 'blockchain/create_block.html', {'form': form})
     else:
@@ -73,8 +73,8 @@ def create_blockchain_entry(request):
     if request.method == 'POST':
         form = BlockchainEntryForm(request.POST)
         if form.is_valid():
-            form.save()  # Save the new BlockchainEntry to the database
-            return redirect('home')  # Redirect to a success page or home
+            form.save()
+            return redirect('home')
     else:
         form = BlockchainEntryForm()
 
@@ -119,7 +119,7 @@ class OrderDetailView(DetailView):
     context_object_name = 'order'
 
 def order_list(request):
-    orders = Order.objects.all().order_by('-timestamp')  # Fetch all orders, latest first
+    orders = Order.objects.all().order_by('-timestamp')
     return render(request, 'blockchain/orders.html', {'orders': orders})
 
 def create_order(request):
@@ -127,7 +127,7 @@ def create_order(request):
         form = OrderForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('orders')  # Redirect to orders page after creating
+            return redirect('orders')
     else:
         form = OrderForm()
 
@@ -159,7 +159,7 @@ def create_mine_view(request):
 
 class RegisterView(generic.CreateView):
     form_class = UserCreationForm
-    template_name = 'registration/register.html'  # Create this template
+    template_name = 'registration/register.html'
     success_url = reverse_lazy('login')
 
 @login_required

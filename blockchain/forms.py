@@ -16,7 +16,7 @@ class BlockchainEntryForm(forms.ModelForm):
         }
 
 
-# views.py - add this function
+
 def create_block(request):
     if request.method == 'POST':
         form = BlockForm(request.POST)
@@ -54,7 +54,7 @@ class OrderForm(forms.ModelForm):
 
 class OrderDetailView(DetailView):
     model = Order
-    template_name = 'order_detail.html'  # Ensure this template exists
+    template_name = 'order_detail.html'
     context_object_name = 'order'
 
 class Blockchain:
